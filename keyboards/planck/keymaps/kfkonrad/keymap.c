@@ -95,7 +95,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   KFK_INITIALIZE_PROCESS_RECORD_USER();
   switch (keycode) {
-    case KC_BSPC: KFK_SEND_INSTEAD_WHEN_SHIFTED(KC_DEL);
+    case KC_BSPC: KFK_SEND_INSTEAD_WHEN_SHIFT(KC_DEL);
   }
   return true;
 }

@@ -2,11 +2,11 @@
 
 uint8_t mod_state = false;
 
-bool kfk_send_instead_when_shifted(keyrecord_t *record, int keycode) {
+bool kfk_send_instead_when(int keycode, keyrecord_t *record, uint8_t mask) {
     static bool key_registered;
     if (record->event.pressed) {
-        if (mod_state & MOD_MASK_SHIFT) {
-            del_mods(MOD_MASK_SHIFT);
+        if (mod_state & mask) {
+            del_mods(mask);
             register_code(keycode);
             key_registered = true;
             set_mods(mod_state);
