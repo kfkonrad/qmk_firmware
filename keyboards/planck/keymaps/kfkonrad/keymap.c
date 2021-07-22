@@ -1,11 +1,19 @@
 #include QMK_KEYBOARD_H
 #include "kfkonrad.h"
+#ifdef AUDIO_ENABLE
+    #include "user_song_list.h"
+#endif
 
 enum custom_layers {
   _QWERTY,
   _LOWER,
   _RAISE,
   _ADJUST
+};
+
+enum custom_keycodes {
+    KFK_M1 = SAFE_RANGE,
+    KFK_M2
 };
 
 #define LOWER MO(_LOWER)
@@ -71,9 +79,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* ADJUST (LOWER + RAISE)
  * ,-----------------------------------------------------------------------------------.
- * | RGB  | HUE+ | SAT+ | BRGT+|      |      |      |      |      |      |Reset |Debug |
+ * | RGB  | HUE+ | SAT+ | BRGT+|      |KFK_M1|      |      |      |      |Reset |Debug |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |RGBMOD| HUE- | SAT- | BRGT-|      |      |      |      |      |      |      |      |
+ * |RGBMOD| HUE- | SAT- | BRGT-|      |KFK_M2|      |      |      |      |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |      |      |      |      |      |Aud on|Mus on|
  * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -81,8 +89,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_ADJUST] = LAYOUT_planck_grid(
-    RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RESET,   DEBUG,
-    RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX, KFK_M1,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RESET,   DEBUG,
+    RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX, KFK_M2,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, AU_ON,   MU_ON,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, LOWER,   XXXXXXX, XXXXXXX, RAISE,   XXXXXXX, XXXXXXX, AU_OFF,  MU_OFF
 )
@@ -93,10 +101,19 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 }
 
 #ifdef AUDIO_ENABLE
-float planck_sound[][2] = SONG(PLANCK_SOUND);
+float zelda_puzzle[][2] = SONG(ZELDA_PUZZLE);
+float zelda_treasure[][2] = SONG(ZELDA_TREASURE);
 
-void keyboard_post_init_user(void) {
-  PLAY_SONG(planck_sound);
+void keyboard_post_init_user() {
+  KFK_PLAY_SONG(ZELDA_PUZZLE_BPM, zelda_puzzle);
+}
+
+void shutdown_user() {
+    uint16_t timer_start = timer_read();
+    KFK_PLAY_SONG(ZELDA_TREASURE_BPM, zelda_treasure);
+    // this can be 250ms shorter than the song because of the timer delay
+    // introduced by the calling function reset_keyboard
+    while (timer_elapsed(timer_start) < ZELDA_TREASURE_DURATION - 250) wait_ms(1);
 }
 #endif
 
@@ -104,6 +121,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   KFK_INITIALIZE_PROCESS_RECORD_USER();
   switch (keycode) {
     case KC_BSPC: KFK_SEND_INSTEAD_WHEN_SHIFT(KC_DEL);
+    #ifdef AUDIO_ENABLE
+      case KFK_M1: KFK_PLAY_SONG_FROM_PROCESS_RECORD_USER(ZELDA_PUZZLE_BPM, zelda_puzzle);
+      case KFK_M2: KFK_PLAY_SONG_FROM_PROCESS_RECORD_USER(ZELDA_TREASURE_BPM, zelda_treasure);
+    #endif
   }
   return true;
 }
