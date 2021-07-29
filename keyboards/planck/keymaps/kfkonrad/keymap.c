@@ -48,7 +48,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------+------|------+------+------+------+------|
  * |Lshft |      |      |      |      |   `  |   ~  |   1  |   2  |   3  |   {  |   }  |
  * |------+------+------+------+------+------+------|------+------+------+------+------|
- * |LCtrl |      | LAlt | LGui | Lower|             |Raise |   \  |   0  |      |   =  |
+ * |LCtrl |      | LAlt | LGui | Lower|             |Raise |   \  |   0  |   -  |   =  |
  * `-----------------------------------------------------------------------------------'
  */
 
@@ -56,7 +56,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_7,    KC_8,    KC_9,    KC_LPRN, KC_RPRN,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_4,    KC_5,    KC_6,    KC_LBRC, KC_RBRC,
     KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_GRV,  KC_TILD, KC_1,    KC_2,    KC_3,    KC_LCBR, KC_RCBR,
-    KC_LCTL, XXXXXXX, KC_LALT, KC_LGUI, LOWER,   XXXXXXX, XXXXXXX, RAISE,   KC_BSLS, KC_0, XXXXXXX, KC_EQL
+    KC_LCTL, XXXXXXX, KC_LALT, KC_LGUI, LOWER,   XXXXXXX, XXXXXXX, RAISE,   KC_BSLS, KC_0,    KC_MINS, KC_EQL
   ),
 
 /* RAISE
@@ -70,6 +70,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |LCtrl |      | LAlt | LGui |Lower |             | Raise|      | |<<  | >/|| | >>|  |
  * `-----------------------------------------------------------------------------------'
  */
+
   [_RAISE] = LAYOUT_planck_grid(
     KC_MUTE, KC_F7,   KC_F8,   KC_F9,   KC_F12,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     KC_VOLU, KC_F4,   KC_F5,   KC_F6,   KC_F11,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
@@ -88,6 +89,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |LOWER |             |RAISE |      |      |Audoff|Musoff|
  * `-----------------------------------------------------------------------------------'
  */
+ 
 [_ADJUST] = LAYOUT_planck_grid(
     RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX, KFK_M1,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RESET,   DEBUG,
     RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX, KFK_M2,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
