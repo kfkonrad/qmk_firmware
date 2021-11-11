@@ -61,20 +61,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* RAISE
  * .-----------------------------------------------------------------------------------.
- * | Mute |  F7  |  F8  |  F9  |  F12 |      |      |      |      |      |      |      |
+ * | Mute |  F7  |  F8  |  F9  |  F12 |      |      |      |      |      |      |Lshft |
  * |------|------+------+------+------+------+------+------+------+------+------+------|
- * | Vol+ |  F4  |  F5  |  F6  |  F11 |      |      |      |      |      |      |      |
+ * | Vol+ |  F4  |  F5  |  F6  |  F11 |      |      |      |      |      |      | BRI+ |
  * |------|------+------+------+------+------+------+------+------+------+------+------|
- * | Vol- |  F1  |  F2  |  F3  |  F10 |   `  |   ~  |      |      |      |      |Lshft |
+ * | Vol- |  F1  |  F2  |  F3  |  F10 |   `  |   ~  |      |      |      |      | BRI- |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
  * |LCtrl |      | LAlt | LGui |Lower |             | Raise|      | |<<  | >/|| | >>|  |
  * `-----------------------------------------------------------------------------------'
  */
 
   [_RAISE] = LAYOUT_planck_grid(
-    KC_MUTE, KC_F7,   KC_F8,   KC_F9,   KC_F12,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    KC_VOLU, KC_F4,   KC_F5,   KC_F6,   KC_F11,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    KC_VOLD, KC_F1,   KC_F2,   KC_F3,   KC_F10,  KC_GRV,  KC_TILD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_LSFT,
+    KC_MUTE, KC_F7,   KC_F8,   KC_F9,   KC_F12,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_LSFT,
+    KC_VOLU, KC_F4,   KC_F5,   KC_F6,   KC_F11,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_BRIU,
+    KC_VOLD, KC_F1,   KC_F2,   KC_F3,   KC_F10,  KC_GRV,  KC_TILD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_BRID,
     KC_LCTL, XXXXXXX, KC_LALT, KC_LGUI, LOWER,   XXXXXXX, XXXXXXX, RAISE,   XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT
   ),
 
@@ -122,7 +122,7 @@ void shutdown_user() {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   KFK_INITIALIZE_PROCESS_RECORD_USER();
   switch (keycode) {
-    case KC_BSPC: KFK_SEND_INSTEAD_WHEN_SHIFT(KC_DEL);
+    case KC_BSPC: return KFK_SEND_INSTEAD_WHEN_SHIFT(KC_DEL) && KFK_SEND_INSTEAD_WHEN_CTRL(KC_DEL);
     #ifdef AUDIO_ENABLE
       case KFK_M1: KFK_PLAY_SONG_FROM_PROCESS_RECORD_USER(ZELDA_PUZZLE_BPM, zelda_puzzle);
       case KFK_M2: KFK_PLAY_SONG_FROM_PROCESS_RECORD_USER(ZELDA_TREASURE_BPM, zelda_treasure);

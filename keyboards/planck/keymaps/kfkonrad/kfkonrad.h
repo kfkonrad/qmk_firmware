@@ -10,16 +10,16 @@ extern uint8_t mod_state;
 bool kfk_send_instead_when(int keycode, keyrecord_t *record, uint8_t mask);
 
 #define KFK_SEND_INSTEAD_WHEN_SHIFT(keycode) \
-  return kfk_send_instead_when(keycode, record, MOD_MASK_SHIFT);
+  kfk_send_instead_when(keycode, record, MOD_MASK_SHIFT)
 
 #define KFK_SEND_INSTEAD_WHEN_CTRL(keycode) \
-  return kfk_send_instead_when(keycode, record, MOD_MASK_CTRL);
+  kfk_send_instead_when(keycode, record, MOD_MASK_CTRL)
 
 #define KFK_SEND_INSTEAD_WHEN_ALT(keycode) \
-  return kfk_send_instead_when(keycode, record, MOD_MASK_ALT);
+  kfk_send_instead_when(keycode, record, MOD_MASK_ALT)
 
 #define KFK_SEND_INSTEAD_WHEN_GUI(keycode) \
-  return kfk_send_instead_when(keycode, record, MOD_MASK_GUI);
+  kfk_send_instead_when(keycode, record, MOD_MASK_GUI)
 
 #define KFK_PLAY_SONG(bpm, songname) \
     audio_set_tempo(bpm); \
